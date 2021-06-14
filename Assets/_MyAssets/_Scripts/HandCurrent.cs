@@ -6,12 +6,16 @@ using UnityEngine.XR;
 
 public class HandCurrent : MonoBehaviour
 {
+    [SerializeField] bool mbShowController = false;
     [SerializeField] List<GameObject> mlControllerPrefabs;
     [SerializeField] InputDeviceCharacteristics mInputDeviceCharacteristics;
+    [SerializeField] GameObject mHandModelObjectPrefab;
 
     private InputDevice mTargetDevice;
 
     private GameObject mSpawnController;
+    private GameObject mSpawnHand;
+    private Animator mHandAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +48,9 @@ public class HandCurrent : MonoBehaviour
                 Debug.Log("No hemos encontrado el contralor");
                 mSpawnController = Instantiate(mlControllerPrefabs[0], transform);
             }
+
+            mSpawnHand = Instantiate(mHandModelObjectPrefab, transform);
+            mHandAnimator = mSpawnHand.GetComponent<Animator>();
         }
 
     }
@@ -58,10 +65,37 @@ public class HandCurrent : MonoBehaviour
             return;
         }
 
-        mTargetDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool lTriggerButtonValue);
+        //mTargetDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool lTriggerButtonValue);
 
-        if (lTriggerButtonValue)
-            Debug.Log("lTriggerButtonValue presionado");
+        //if (lTriggerButtonValue)
+        //    Debug.Log("lTriggerButtonValue presionado");
+
+        if (mbShowController)
+        {
+            mSpawnHand.SetActive(false);
+            mSpawnController.SetActive(true);
+        }
+        else
+        {
+            mSpawnHand.SetActive(true);
+            mSpawnController.SetActive(false);
+            UpdateAnim();
+        }
+
+    }
+
+    void UpdateAnim()
+    {
+        if (mTargetDevice.TryGetFeatureValue(CommonUsages.trigger, out float lTriggerValue))
+            mHandAnimator.SetFloat("Trigger", lTriggerValue);
+        else
+            mHandAnimator.SetFloat("Trigger", 0);
+
+        if (mTargetDevice.TryGetFeatureValue(CommonUsages.grip, out float lGripValue))
+            mHandAnimator.SetFloat("Grip", lGripValue);
+        else
+            mHandAnimator.SetFloat("Grip", 0);
+
 
     }
 }
