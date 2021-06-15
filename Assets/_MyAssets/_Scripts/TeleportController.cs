@@ -24,17 +24,67 @@ public class TeleportController : MonoBehaviour
         lCancelLeftHand.Enable();
         lActivateLeftHand.canceled += OnTeleportCancelLeftHand;
 
+
+        var lActivateRightHand = mActionAsset.FindActionMap("XRI RightHand").FindAction("Activate");
+        lActivateRightHand.Enable();
+        lActivateRightHand.performed += OnTeleportActivateRightHand;
+
+        var lCancelRightHand = mActionAsset.FindActionMap("XRI RightHand").FindAction("Activate");
+        lCancelRightHand.Enable();
+        lActivateRightHand.canceled += OnTeleportCancelRightHand;
+
+
     }
 
     private void OnTeleportActivateLeftHand(InputAction.CallbackContext context)
     {
-        Debug.Log("OnTeleportActivateLeftHand" + context.performed);
+        //Debug.Log("OnTeleportActivateLeftHand" + context.performed);
+        mLeftTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+
     }
 
     private void OnTeleportCancelLeftHand(InputAction.CallbackContext context)
     {
-        Debug.Log("OnTeleportCancelLeftHand" + context.performed);
+        //Debug.Log("OnTeleportCancelLeftHand" + context.performed);
+        TeleportMove(mLeftTeleportController);
+        mLeftTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = false;
     }
+
+    private void OnTeleportActivateRightHand(InputAction.CallbackContext context)
+    {
+        //Debug.Log("OnTeleportActivateRightHand" + context.performed);
+        mRightTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+    }
+
+    private void OnTeleportCancelRightHand(InputAction.CallbackContext context)
+    {
+        //Debug.Log("OnTeleportCancelRightHand" + context.performed);
+        TeleportMove(mRightTeleportController);
+        mRightTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = false;
+    }
+
+
+
+
+ 
+
+
+    private void TeleportMove(XRBaseController controller)
+    {
+        if (!controller.GetComponent<XRRayInteractor>().TryGetCurrent3DRaycastHit(out RaycastHit hit) || hit.transform.GetComponent<TeleportationArea>() == null)
+        {
+            controller.gameObject.GetComponent<XRRayInteractor>().enabled = false;
+            return;
+        }
+
+        TeleportRequest lRequest = new TeleportRequest()
+        {
+            destinationPosition = hit.point
+        };
+
+        mTeleportationProvider.QueueTeleportRequest(lRequest);
+    }
+
 
     // Update is called once per frame
     void Update()
