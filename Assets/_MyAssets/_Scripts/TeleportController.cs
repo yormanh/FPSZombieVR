@@ -13,6 +13,9 @@ public class TeleportController : MonoBehaviour
     [SerializeField] InputActionAsset mActionAsset;
     [SerializeField] TeleportationProvider mTeleportationProvider;
 
+    public bool EnableLeftTeleport { get; set; }
+    public bool EnableRightTeleport { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +42,8 @@ public class TeleportController : MonoBehaviour
     private void OnTeleportActivateLeftHand(InputAction.CallbackContext context)
     {
         //Debug.Log("OnTeleportActivateLeftHand" + context.performed);
-        mLeftTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+        if (EnableLeftTeleport)
+            mLeftTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
 
     }
 
@@ -53,7 +57,8 @@ public class TeleportController : MonoBehaviour
     private void OnTeleportActivateRightHand(InputAction.CallbackContext context)
     {
         //Debug.Log("OnTeleportActivateRightHand" + context.performed);
-        mRightTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+        if (EnableRightTeleport)
+            mRightTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
     }
 
     private void OnTeleportCancelRightHand(InputAction.CallbackContext context)
