@@ -13,8 +13,8 @@ public class TeleportController : MonoBehaviour
     [SerializeField] InputActionAsset mActionAsset;
     [SerializeField] TeleportationProvider mTeleportationProvider;
 
-    public bool EnableLeftTeleport { get; set; }
-    public bool EnableRightTeleport { get; set; }
+    public bool EnableLeftTeleport { get; set; } = true;
+    public bool EnableRightTeleport { get; set; } = true;
 
     // Start is called before the first frame update
     void Start()
