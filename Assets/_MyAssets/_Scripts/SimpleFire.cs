@@ -20,6 +20,9 @@ public class SimpleFire : MonoBehaviour
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
 
+    [Header("Sounds")]
+    [SerializeField] AudioSource mAudioSourceShoot;
+
 
     void Start()
     {
@@ -49,6 +52,8 @@ public class SimpleFire : MonoBehaviour
     //This function creates the bullet behavior
     void Shoot()
     {
+        mAudioSourceShoot.Play();
+
         if (muzzleFlashPrefab)
         {
             //Create the muzzle flash
