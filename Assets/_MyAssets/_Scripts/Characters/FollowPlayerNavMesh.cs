@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.AI;
 
 public class FollowPlayerNavMesh : MonoBehaviour
@@ -12,9 +13,6 @@ public class FollowPlayerNavMesh : MonoBehaviour
     void Start()
     {
         mAgent = GetComponent<NavMeshAgent>();
-             
-
-
     }
 
     // Update is called once per frame
