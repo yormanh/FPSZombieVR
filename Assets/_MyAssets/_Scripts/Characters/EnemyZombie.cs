@@ -78,7 +78,8 @@ public class EnemyZombie : MonoBehaviour
     IEnumerator AttackTime()
     {
         mbCanAttack = false;
-        Debug.Log("Atacnado al playe r");
+        Debug.Log("Atacnado al playerr");
+        mPlayer.GetComponent<PlayerVR>().TakeDamage(miDamage);
         yield return new WaitForSeconds(mfAttackTime);
         mbCanAttack = true;
 
