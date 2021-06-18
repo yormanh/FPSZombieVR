@@ -25,7 +25,7 @@ public class TeleportController : MonoBehaviour
         
         var lCancelLeftHand = mActionAsset.FindActionMap("XRI LeftHand").FindAction("Activate");
         lCancelLeftHand.Enable();
-        lActivateLeftHand.canceled += OnTeleportCancelLeftHand;
+        lCancelLeftHand.canceled += OnTeleportCancelLeftHand;
 
 
         var lActivateRightHand = mActionAsset.FindActionMap("XRI RightHand").FindAction("Activate");
@@ -34,7 +34,7 @@ public class TeleportController : MonoBehaviour
 
         var lCancelRightHand = mActionAsset.FindActionMap("XRI RightHand").FindAction("Activate");
         lCancelRightHand.Enable();
-        lActivateRightHand.canceled += OnTeleportCancelRightHand;
+        lCancelRightHand.canceled += OnTeleportCancelRightHand;
 
 
     }
@@ -76,6 +76,7 @@ public class TeleportController : MonoBehaviour
 
     private void TeleportMove(XRBaseController controller)
     {
+
         if (!controller.GetComponent<XRRayInteractor>().TryGetCurrent3DRaycastHit(out RaycastHit hit) || hit.transform.GetComponent<TeleportationArea>() == null)
         {
             controller.gameObject.GetComponent<XRRayInteractor>().enabled = false;

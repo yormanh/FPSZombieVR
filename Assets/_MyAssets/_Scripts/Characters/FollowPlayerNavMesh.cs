@@ -12,6 +12,9 @@ public class FollowPlayerNavMesh : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (mTarget == null)
+            mTarget = GameObject.FindGameObjectWithTag("Player").transform;
+
         mAgent = GetComponent<NavMeshAgent>();
     }
 
