@@ -13,6 +13,10 @@ public class TeleportController : MonoBehaviour
     [SerializeField] InputActionAsset mActionAsset;
     [SerializeField] TeleportationProvider mTeleportationProvider;
 
+    [SerializeField] XRRayInteractor mLeftRayInteractor;
+    [SerializeField] XRRayInteractor mRightRayInteractor;
+
+
     public bool EnableLeftTeleport { get; set; } = true;
     public bool EnableRightTeleport { get; set; } = true;
 
@@ -43,7 +47,11 @@ public class TeleportController : MonoBehaviour
     {
         //Debug.Log("OnTeleportActivateLeftHand" + context.performed);
         if (EnableLeftTeleport)
-            mLeftTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+        {
+            bool lbIsLefInteractorRayHover = mLeftRayInteractor.TryGetHitInfo(out Vector3 postition, out Vector3 normal, out int index, out bool isValidTarget);
+            if (!lbIsLefInteractorRayHover)
+                mLeftTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+        }
 
     }
 
@@ -58,7 +66,11 @@ public class TeleportController : MonoBehaviour
     {
         //Debug.Log("OnTeleportActivateRightHand" + context.performed);
         if (EnableRightTeleport)
-            mRightTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+        {
+            bool lbIsRightInteractorRayHover = mRightRayInteractor.TryGetHitInfo(out Vector3 postition, out Vector3 normal, out int index, out bool isValidTarget);
+            if (!lbIsRightInteractorRayHover)
+                mRightTeleportController.gameObject.GetComponent<XRRayInteractor>().enabled = true;
+        }
     }
 
     private void OnTeleportCancelRightHand(InputAction.CallbackContext context)

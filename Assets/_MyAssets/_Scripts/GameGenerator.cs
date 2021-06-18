@@ -20,12 +20,19 @@ public class GameGenerator : MonoBehaviour
     [SerializeField] float mfTimeBetweenWaves = 5f;
 
 
+    public static GameGenerator Singleton;
+
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
+    {
+        Singleton = this;
+    }
+
+    public void Init()
     {
         InvokeRepeating("GenerateWave", mfTimeBetweenWaves, mfTimeBetweenWaves);
     }
-
 
     void GenerateWave ()
     {
